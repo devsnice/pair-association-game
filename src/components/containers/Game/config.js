@@ -5,15 +5,6 @@ const amountCardsInCombination = 2;
 const combinations = {
   '1, 2': {
     msg: "You're right!"
-  },
-  '5, 10': {
-    msg: "You're right!"
-  },
-  '4, 7': {
-    msg: "You're right!"
-  },
-  '8, 3': {
-    msg: "You're right!"
   }
 };
 

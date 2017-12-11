@@ -1,8 +1,9 @@
-import { put, select, takeEvery } from 'redux-saga/effects';
+import { put, fork, take, select, takeEvery } from 'redux-saga/effects';
 import {
   ACTIONS,
   selectCombinationSuccess,
-  selectCombinationFailure
+  selectCombinationFailure,
+  changeGameStatus
 } from './gameReducer';
 
 import {
@@ -11,26 +12,39 @@ import {
   amountCardsInCombination
 } from '../config';
 
+function* gameFlowSaga() {}
+
 function* gameSaga() {
   yield takeEvery(ACTIONS.START_GAME, function*(action) {
     const state = yield select();
 
-    yield takeEvery(ACTIONS.SELECT_CARD, function*(action) {
-      const state = yield select();
+    yield takeEvery(
+      [ACTIONS.SELECT_CARD, ACTIONS.SELECT_COMBINATION_SUCCESS],
+      function*(action) {
+        const state = yield select();
 
-      if (state.game.selectedCards.length === amountCardsInCombination) {
-        const userCombo = createCombination(state.game.selectedCards);
+        if (action.type === ACTIONS.SELECT_CARD) {
+          if (state.game.selectedCards.length === amountCardsInCombination) {
+            const userCombo = createCombination(state.game.selectedCards);
 
-        const isCorrectCombo = checkCombination(userCombo);
-        const isNewCombo = !state.game.userCombos.includes(userCombo);
+            const isCorrectCombo = checkCombination(userCombo);
+            const isNewCombo = !state.game.userCombos.includes(userCombo);
 
-        if (isCorrectCombo && isNewCombo) {
-          yield put(selectCombinationSuccess(userCombo));
-        } else {
-          yield put(selectCombinationFailure());
+            if (isCorrectCombo && isNewCombo) {
+              yield put(selectCombinationSuccess(userCombo));
+            } else {
+              yield put(selectCombinationFailure());
+            }
+          }
+        }
+
+        if (action.type === ACTIONS.SELECT_COMBINATION_SUCCESS) {
+          if (state.game.score === state.game.maxScore) {
+            yield put(changeGameStatus('end'));
+          }
         }
       }
-    });
+    );
   });
 }
 

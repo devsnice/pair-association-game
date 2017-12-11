@@ -3,10 +3,18 @@ export const ACTIONS = {
   SELECT_CARD: 'SELECT_CARD',
   SELECT_COMBINATION: 'SELECT_COMBINATION',
   SELECT_COMBINATION_SUCCESS: 'SELECT_COMBINATION_SUCCESS',
-  SELECT_COMBINATION_FAILURE: 'SELECT_COMBINATION_FAILURE'
+  SELECT_COMBINATION_FAILURE: 'SELECT_COMBINATION_FAILURE',
+  CHANGE_GAME_STATUS: 'CHANGE_GAME_STATUS'
+};
+
+const gameStatuses = {
+  init: 'init',
+  new: 'new',
+  end: 'end'
 };
 
 const defaultState = {
+  status: gameStatuses.init,
   score: 0,
   maxScore: 0,
   startGameTime: null,
@@ -23,7 +31,8 @@ const game = (state = defaultState, action) => {
         ...state,
         score: 0,
         maxScore: payload.maxScore,
-        startGameTime: payload.startGameTime
+        startGameTime: payload.startGameTime,
+        status: gameStatuses.new
       };
 
     case ACTIONS.SELECT_CARD:
@@ -44,6 +53,12 @@ const game = (state = defaultState, action) => {
       return {
         ...state,
         selectedCards: []
+      };
+
+    case ACTIONS.CHANGE_GAME_STATUS:
+      return {
+        ...state,
+        status: payload.status
       };
 
     default:
@@ -76,6 +91,17 @@ export const selectCombinationFailure = () => {
   return {
     type: ACTIONS.SELECT_COMBINATION_FAILURE
   };
+};
+
+export const changeGameStatus = status => {
+  if (gameStatuses[status]) {
+    return {
+      type: ACTIONS.CHANGE_GAME_STATUS,
+      payload: {
+        status: gameStatuses[status]
+      }
+    };
+  }
 };
 
 export default game;
