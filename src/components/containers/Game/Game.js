@@ -3,10 +3,16 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { startGame, selectCard } from './model/gameReducer';
+import {
+  startGame,
+  selectCard,
+  changeGameStatus,
+  gameStatuses
+} from './model/gameReducer';
 import { maxScore } from './config';
 
 import GameField from './GameField/GameField';
+import GameSplasher from './GameSplasher/GameSplasher';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -41,6 +47,10 @@ class Game extends Component {
     });
   }
 
+  handleUserGotIntro = () => {
+    this.props.changeGameStatus(gameStatuses.playing);
+  };
+
   render() {
     const { game, selectCard } = this.props;
 
@@ -49,8 +59,11 @@ class Game extends Component {
         <GameField handleSelectCard={selectCard} />
         <GameBar>
           {game.score} / {game.maxScore}
-          <div>{game.status}</div>
         </GameBar>
+        <GameSplasher
+          status={game.status}
+          handleUserGotIntro={this.handleUserGotIntro}
+        />
       </Wrapper>
     );
   }
@@ -58,5 +71,6 @@ class Game extends Component {
 
 export default connect(state => ({ game: state.game }), {
   startGame,
-  selectCard
+  selectCard,
+  changeGameStatus
 })(Game);

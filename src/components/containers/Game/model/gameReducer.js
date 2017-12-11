@@ -7,9 +7,12 @@ export const ACTIONS = {
   CHANGE_GAME_STATUS: 'CHANGE_GAME_STATUS'
 };
 
-const gameStatuses = {
+// init -> intro -> playing -> end
+
+export const gameStatuses = {
   init: 'init',
-  new: 'new',
+  intro: 'intro',
+  playing: 'playing',
   end: 'end'
 };
 
@@ -32,7 +35,7 @@ const game = (state = defaultState, action) => {
         score: 0,
         maxScore: payload.maxScore,
         startGameTime: payload.startGameTime,
-        status: gameStatuses.new
+        status: gameStatuses.intro
       };
 
     case ACTIONS.SELECT_CARD:

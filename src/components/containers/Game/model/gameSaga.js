@@ -18,6 +18,9 @@ function* gameSaga() {
   yield takeEvery(ACTIONS.START_GAME, function*(action) {
     const state = yield select();
 
+    // const userPassedIntroduction = take()
+    // check that user passed introduction, after it game begins
+
     yield takeEvery(
       [ACTIONS.SELECT_CARD, ACTIONS.SELECT_COMBINATION_SUCCESS],
       function*(action) {
