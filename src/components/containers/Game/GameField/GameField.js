@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100% - 100px);
 `;
 
 const CardWrapper = styled.div`

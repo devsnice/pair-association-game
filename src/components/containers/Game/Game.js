@@ -12,21 +12,13 @@ import {
 import { maxScore } from './config';
 
 import GameField from './GameField/GameField';
+import GameBar from './GameBar/GameBar';
 import GameSplasher from './GameSplasher/GameSplasher';
 
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
-`;
-
-const GameBar = styled.div`
-  height: 75px;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  background: #fff;
 `;
 
 class Game extends Component {
@@ -51,15 +43,14 @@ class Game extends Component {
     this.props.changeGameStatus(gameStatuses.playing);
   };
 
+  // TODO:: added animation for gameBar
   render() {
     const { game, selectCard } = this.props;
 
     return (
       <Wrapper>
         <GameField handleSelectCard={selectCard} />
-        <GameBar>
-          {game.score} / {game.maxScore}
-        </GameBar>
+        <GameBar score={game.score} maxScore={game.maxScore} />
         <GameSplasher
           status={game.status}
           handleUserGotIntro={this.handleUserGotIntro}
