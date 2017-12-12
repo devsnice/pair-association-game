@@ -1,5 +1,3 @@
-// TODO:: make mechanism for creating combinations
-
 const amountCardsInCombination = 2;
 
 const combinations = {

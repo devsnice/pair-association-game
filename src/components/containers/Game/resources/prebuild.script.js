@@ -1,5 +1,0 @@
-/*
-    read images
-    create import folder
-    use in project
-*/

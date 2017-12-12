@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import Images from '../resources/imagesConfig';
+
 const Wrapper = styled.div`
   width: 100%;
   height: calc(100% - 100px);
@@ -10,9 +12,11 @@ const Wrapper = styled.div`
 const CardWrapper = styled.div`
   width: ${props => `${props.width}px`};
   height: ${props => `${props.height}px`};
+  background: ${props => `url("${props.image}")`};
   float: left;
   text-align: center;
   cursor: pointer;
+  background-size: cover;
 
   &:hover {
     background: #eee;
@@ -25,11 +29,10 @@ const Card = params => {
       onClick={() => {
         params.handleClick(params.id);
       }}
+      image={params.image}
       width={params.width}
       height={params.height}
-    >
-      {params.id}
-    </CardWrapper>
+    />
   );
 };
 
@@ -38,6 +41,7 @@ class GameField extends Component {
     handleSelectCard: PropTypes.func.isRequired
   };
 
+  // TODO: get image should be a random process
   createCards = ({ amountImages, cardWidth, cardHeight }) => {
     const images = [];
 
@@ -48,6 +52,7 @@ class GameField extends Component {
           height={cardHeight}
           id={i}
           key={i}
+          image={Images[`image${i}`]}
           handleClick={this.selectCard}
         />
       );
@@ -62,14 +67,14 @@ class GameField extends Component {
 
   // TODO: create smart field for elements
   createField = () => {
-    const amountImages = 60;
+    const amountImages = Object.keys(Images).length;
     const { availHeight, availWidth } = window.screen;
 
-    const amountInRow = 8;
+    const amountInRow = 9;
     const amountInHeight = amountImages / amountInRow;
 
     const cardWidth = availWidth / amountInRow;
-    const cardHeight = availHeight / amountInHeight;
+    const cardHeight = (availHeight - 100) / amountInHeight;
 
     const images = this.createCards({
       amountImages,

@@ -22,3 +22,4 @@ yarn-error.log*
 
 # test resources
 /src/components/containers/Game/resources/images
+/src/components/containers/Game/resources/imagesConfig.js
