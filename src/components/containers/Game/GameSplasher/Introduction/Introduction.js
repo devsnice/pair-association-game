@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import { Box, Flex } from 'grid-styled';
 
+import introHeader from './introHeader.png';
+
 const Title = styled.h1`
   letter-spacing: 1px;
 `;
@@ -26,22 +28,26 @@ class Introduction extends Component {
 
   render() {
     return (
-      <Box width="520px">
-        <Title>Introduction</Title>
+      <Flex align="center" column>
+        <img width="700px" src={introHeader} alt="game introduction header" />
 
-        <Description>
-          <p>
-            Hey, it’s game for you! Open your eyes and try find out all
-            assosiation on the page!
-          </p>
+        <Box width="520px" mt="60px">
+          <Title>Introduction</Title>
 
-          <p>Good game!</p>
-        </Description>
+          <Description>
+            <p>
+              Hey, it’s game for you! Open your eyes and try find out all
+              assosiation on the page!
+            </p>
 
-        <Flex justify="flex-end">
-          <Button onClick={this.props.handleUserGotIntro}>Start game</Button>
-        </Flex>
-      </Box>
+            <p>Good game!</p>
+          </Description>
+
+          <Flex justify="flex-end">
+            <Button onClick={this.props.handleUserGotIntro}>Start game</Button>
+          </Flex>
+        </Box>
+      </Flex>
     );
   }
 }
