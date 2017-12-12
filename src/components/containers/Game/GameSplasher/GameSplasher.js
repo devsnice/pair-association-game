@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import { Box, Flex } from 'grid-styled';
+
 import { gameStatuses } from '../model/gameReducer';
 
-const Wrapper = styled.div`
+import Introduction from './Introduction/Introduction';
+
+const Wrapper = styled(Flex)`
   width: 100%;
   height: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: linear-gradient(to bottom, rgba(63, 112, 154, 0.91), #854dc2);
   color: #fff;
 `;
 
@@ -20,25 +24,26 @@ class GameSplasher extends Component {
     handleUserGotIntro: PropTypes.func.isRequired
   };
 
-  render() {
-    const { status } = this.props;
+  getSplasherContent = () => {
+    const { status, handleUserGotIntro } = this.props;
 
     if (status === gameStatuses.intro) {
-      return (
-        <Wrapper>
-          <div>
-            It's game introduction, user should read instructions for continuing
-            the game
-          </div>
-
-          <div>
-            <button onClick={this.props.handleUserGotIntro}>I got it</button>
-          </div>
-        </Wrapper>
-      );
+      return <Introduction handleUserGotIntro={handleUserGotIntro} />;
     }
 
     return null;
+  };
+
+  render() {
+    const content = this.getSplasherContent();
+
+    if (!content) return null;
+
+    return (
+      <Wrapper justify="center" pt="150px">
+        {content}
+      </Wrapper>
+    );
   }
 }
 

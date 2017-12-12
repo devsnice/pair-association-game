@@ -7,7 +7,6 @@ const Wrapper = styled.div`
   color: #fff;
   height: 100px;
   font-weight: 400;
-  font-family: 'Roboto', sans-serif;
   font-size: 48px;
   line-height: 100px;
   position: fixed;
@@ -19,8 +18,8 @@ const Wrapper = styled.div`
 
 class GameBar extends Component {
   static propTypes = {
-    score: PropTypes.string.isRequired,
-    maxScore: PropTypes.string.isRequired
+    score: PropTypes.number.isRequired,
+    maxScore: PropTypes.number.isRequired
   };
 
   render() {
