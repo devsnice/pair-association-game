@@ -7,8 +7,10 @@ import {
   startGame,
   selectCard,
   changeGameStatus,
+  closeGameSplasher,
   gameStatuses
 } from './model/gameReducer';
+
 import { maxScore } from './config';
 
 import GameField from './GameField/GameField';
@@ -43,6 +45,10 @@ class Game extends Component {
     this.props.changeGameStatus(gameStatuses.playing);
   };
 
+  handleContinueGame = () => {
+    this.props.closeGameSplasher();
+  };
+
   // TODO:: added animation for gameBar
   render() {
     const { game, selectCard } = this.props;
@@ -57,7 +63,9 @@ class Game extends Component {
 
         <GameSplasher
           type={game.splasherType}
+          data={game.splasherData}
           handleUserPassedIntro={this.handleUserPassedIntro}
+          handleContinueGame={this.handleContinueGame}
         />
       </Wrapper>
     );
@@ -67,5 +75,6 @@ class Game extends Component {
 export default connect(state => ({ game: state.game }), {
   startGame,
   selectCard,
-  changeGameStatus
+  changeGameStatus,
+  closeGameSplasher
 })(Game);

@@ -1,4 +1,4 @@
-import { put, fork, take, select, takeEvery, cancel } from 'redux-saga/effects';
+import { put, fork, take, select, takeEvery } from 'redux-saga/effects';
 import {
   ACTIONS,
   selectedCombinationCorrect,
@@ -8,11 +8,13 @@ import {
   closeGameSplasher
 } from './gameReducer';
 
+import { amountCardsInCombination } from '../config';
+
 import {
-  checkCombination,
-  createCombination,
-  amountCardsInCombination
-} from '../config';
+  isCorrectCombination,
+  getStringCombination,
+  getMessageOfCombination
+} from '../utils/combinationUtils';
 
 function* gameSaga() {
   yield takeEvery(ACTIONS.START_GAME, function*(action) {
@@ -38,13 +40,19 @@ function* gameSaga() {
             state.game.selectedCards.length === amountCardsInCombination;
 
           if (userSelectCombo) {
-            const userCombo = createCombination(state.game.selectedCards);
+            const userCombo = getStringCombination(state.game.selectedCards);
 
-            const isCorrectCombo = checkCombination(userCombo);
+            const isCorrectCombo = isCorrectCombination(userCombo);
             const isNewCombo = !state.game.userCombos.includes(userCombo);
 
             if (isCorrectCombo && isNewCombo) {
-              yield put(showGameSplasher('combinationCorrect'));
+              yield put(
+                showGameSplasher('combinationCorrect', {
+                  combo: state.game.selectedCards,
+                  msg: getMessageOfCombination(userCombo)
+                })
+              );
+
               yield put(selectedCombinationCorrect(userCombo));
             } else {
               yield put(showGameSplasher('combinationWrong'));

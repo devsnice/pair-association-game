@@ -11,24 +11,4 @@ const combinations = {
 
 const maxScore = Object.keys(combinations).length;
 
-const createCombination = cards => {
-  const sortedCards = cards.sort((a, b) => a - b);
-
-  const combination = sortedCards.reduce(
-    (prevValue, currentValue, index) =>
-      prevValue ? `${prevValue}, ${currentValue}` : `${currentValue}`,
-    ''
-  );
-
-  return combination;
-};
-
-const checkCombination = combo => combinations[combo];
-
-export {
-  amountCardsInCombination,
-  combinations,
-  maxScore,
-  checkCombination,
-  createCombination
-};
+export { maxScore, combinations, amountCardsInCombination };

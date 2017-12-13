@@ -19,24 +19,40 @@ const Wrapper = styled(Flex)`
 
 class GameSplasher extends Component {
   static propTypes = {
+    handleUserPassedIntro: PropTypes.func.isRequired,
+    handleContinueGame: PropTypes.func.isRequired,
     type: PropTypes.string,
-    handleUserPassedIntro: PropTypes.func.isRequired
+    data: PropTypes.object
   };
 
   static defaultProps = {
-    type: null
+    type: null,
+    data: {}
   };
 
   getContent = () => {
-    const { type, handleUserPassedIntro } = this.props;
+    const {
+      type,
+      data,
+      handleUserPassedIntro,
+      handleContinueGame
+    } = this.props;
 
     switch (type) {
       case 'introduction':
         return (
-          <IntroductionSplasher handleUserPassedIntro={handleUserPassedIntro} />
+          <IntroductionSplasher
+            handleUserPassedIntro={handleUserPassedIntro}
+            {...data}
+          />
         );
       case 'combinationCorrect':
-        return <CorrectCombinationSplasher />;
+        return (
+          <CorrectCombinationSplasher
+            handleContinueGame={handleContinueGame}
+            {...data}
+          />
+        );
       default:
         return null;
     }

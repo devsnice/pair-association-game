@@ -24,7 +24,8 @@ const defaultState = {
   startGameTime: null,
   selectedCards: [],
   userCombos: [],
-  splasherType: null
+  splasherType: null,
+  splasherData: null
 };
 
 const game = (state = defaultState, action) => {
@@ -54,7 +55,7 @@ const game = (state = defaultState, action) => {
         userCombos: [...state.userCombos, payload.userCombo]
       };
 
-    case ACTIONS.SELECTED_COMBINATION_WRONF:
+    case ACTIONS.SELECTED_COMBINATION_WRONG:
       return {
         ...state,
         selectedCards: []
@@ -69,7 +70,8 @@ const game = (state = defaultState, action) => {
     case ACTIONS.SHOW_SPLASHER:
       return {
         ...state,
-        splasherType: payload.type
+        splasherType: payload.type,
+        splasherData: payload.data
       };
 
     default:
@@ -115,10 +117,10 @@ export const changeGameStatus = status => {
   }
 };
 
-export const showGameSplasher = type => {
+export const showGameSplasher = (type, data = {}) => {
   return {
     type: ACTIONS.SHOW_SPLASHER,
-    payload: { type }
+    payload: { type, data }
   };
 };
 

@@ -5,24 +5,54 @@ import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 import { Title, Description, Button } from '../GameSplashersUnits';
 
+import Images from '../../resources/imagesConfig';
+
+const CardWrapper = styled.div`
+  width: ${props => `${props.width}px`};
+  height: ${props => `${props.height}px`};
+  background: ${props => `url("${props.image}")`};
+  background-size: cover;
+`;
+
 class CorrectCombinationSplasher extends Component {
+  static propTypes = {
+    handleContinueGame: PropTypes.func.isRequired,
+    combo: PropTypes.array.isRequired,
+    msg: PropTypes.string
+  };
+
+  static defaultProps = {
+    msg: "You're right!"
+  };
+
+  // TODO::add animation
   render() {
+    const { combo, msg, handleContinueGame } = this.props;
+
     return (
       <Flex align="center" column>
-        <Box width="520px" mt="60px">
+        <Flex justify="space-between" width="950px">
+          <CardWrapper
+            image={Images[`image${combo[0]}`]}
+            width="460"
+            height="240"
+          />
+          <CardWrapper
+            image={Images[`image${combo[1]}`]}
+            width="460"
+            height="240"
+          />
+        </Flex>
+
+        <Box width="520px" mt="30px">
           <Title>Correct combination!</Title>
 
           <Description>
-            <p>
-              Hey, it’s game for you! Open your eyes and try find out all
-              assosiation on the page!
-            </p>
-
-            <p>Good game!</p>
+            <p>{msg}</p>
           </Description>
 
           <Flex justify="flex-end">
-            <Button>Continue</Button>
+            <Button onClick={handleContinueGame}>Сontinue</Button>
           </Flex>
         </Box>
       </Flex>
