@@ -1,29 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
 import { Box, Flex } from 'grid-styled';
+import { Title, Description, Button } from '../GameSplashersUnits';
 
 import introHeader from './introHeader.png';
 
-const Title = styled.h1`
-  letter-spacing: 1px;
-`;
-
-const Description = styled.div`
-  font-size: 18px;
-  font-weight: 300;
-`;
-
-const Button = styled(Box)`
-  font-size: 24px;
-  letter-spacing: 0.8;
-  cursor: pointer;
-`;
-
-class Introduction extends Component {
+class IntroductionSplasher extends Component {
   static propTypes = {
-    handleUserGotIntro: PropTypes.func.isRequired
+    handleUserPassedIntro: PropTypes.func.isRequired
   };
 
   render() {
@@ -44,7 +29,9 @@ class Introduction extends Component {
           </Description>
 
           <Flex justify="flex-end">
-            <Button onClick={this.props.handleUserGotIntro}>Start game</Button>
+            <Button onClick={this.props.handleUserPassedIntro}>
+              Start game
+            </Button>
           </Flex>
         </Box>
       </Flex>
@@ -52,4 +39,4 @@ class Introduction extends Component {
   }
 }
 
-export default Introduction;
+export default IntroductionSplasher;

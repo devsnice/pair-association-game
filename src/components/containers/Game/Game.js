@@ -39,7 +39,7 @@ class Game extends Component {
     });
   }
 
-  handleUserGotIntro = () => {
+  handleUserPassedIntro = () => {
     this.props.changeGameStatus(gameStatuses.playing);
   };
 
@@ -50,10 +50,14 @@ class Game extends Component {
     return (
       <Wrapper>
         <GameField handleSelectCard={selectCard} />
-        <GameBar score={game.score} maxScore={game.maxScore} />
+
+        {game.status !== 'intro' && (
+          <GameBar score={game.score} maxScore={game.maxScore} />
+        )}
+
         <GameSplasher
-          status={game.status}
-          handleUserGotIntro={this.handleUserGotIntro}
+          type={game.splasherType}
+          handleUserPassedIntro={this.handleUserPassedIntro}
         />
       </Wrapper>
     );

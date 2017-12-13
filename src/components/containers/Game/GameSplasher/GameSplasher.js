@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { Box, Flex } from 'grid-styled';
+import { Flex } from 'grid-styled';
 
-import { gameStatuses } from '../model/gameReducer';
-
-import Introduction from './Introduction/Introduction';
+import IntroductionSplasher from './IntroductionSplasher/IntroductionSplasher';
+import CorrectCombinationSplasher from './CorrectCombinationSplasher/CorrectCombinationSplasher';
 
 const Wrapper = styled(Flex)`
   width: 100%;
@@ -20,22 +19,31 @@ const Wrapper = styled(Flex)`
 
 class GameSplasher extends Component {
   static propTypes = {
-    status: PropTypes.string.isRequired,
-    handleUserGotIntro: PropTypes.func.isRequired
+    type: PropTypes.string,
+    handleUserPassedIntro: PropTypes.func.isRequired
   };
 
-  getSplasherContent = () => {
-    const { status, handleUserGotIntro } = this.props;
+  static defaultProps = {
+    type: null
+  };
 
-    if (status === gameStatuses.intro) {
-      return <Introduction handleUserGotIntro={handleUserGotIntro} />;
+  getContent = () => {
+    const { type, handleUserPassedIntro } = this.props;
+
+    switch (type) {
+      case 'introduction':
+        return (
+          <IntroductionSplasher handleUserPassedIntro={handleUserPassedIntro} />
+        );
+      case 'combinationCorrect':
+        return <CorrectCombinationSplasher />;
+      default:
+        return null;
     }
-
-    return null;
   };
 
   render() {
-    const content = this.getSplasherContent();
+    const content = this.getContent();
 
     if (!content) return null;
 

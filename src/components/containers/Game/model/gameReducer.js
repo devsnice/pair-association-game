@@ -2,9 +2,10 @@ export const ACTIONS = {
   START_GAME: 'START_GAME',
   SELECT_CARD: 'SELECT_CARD',
   SELECT_COMBINATION: 'SELECT_COMBINATION',
-  SELECT_COMBINATION_SUCCESS: 'SELECT_COMBINATION_SUCCESS',
-  SELECT_COMBINATION_FAILURE: 'SELECT_COMBINATION_FAILURE',
-  CHANGE_GAME_STATUS: 'CHANGE_GAME_STATUS'
+  SELECTED_COMBINATION_CORRECT: 'SELECTED_COMBINATION_CORRECT',
+  SELECTED_COMBINATION_WRONG: 'SELECTED_COMBINATION_WRONG',
+  CHANGE_GAME_STATUS: 'CHANGE_GAME_STATUS',
+  SHOW_SPLASHER: 'SHOW_SPLASHER'
 };
 
 // init -> intro -> playing -> end
@@ -22,7 +23,8 @@ const defaultState = {
   maxScore: 0,
   startGameTime: null,
   selectedCards: [],
-  userCombos: []
+  userCombos: [],
+  splasherType: null
 };
 
 const game = (state = defaultState, action) => {
@@ -44,7 +46,7 @@ const game = (state = defaultState, action) => {
         selectedCards: [...state.selectedCards, payload.selectedCardId]
       };
 
-    case ACTIONS.SELECT_COMBINATION_SUCCESS:
+    case ACTIONS.SELECTED_COMBINATION_CORRECT:
       return {
         ...state,
         score: state.score + 1,
@@ -52,7 +54,7 @@ const game = (state = defaultState, action) => {
         userCombos: [...state.userCombos, payload.userCombo]
       };
 
-    case ACTIONS.SELECT_COMBINATION_FAILURE:
+    case ACTIONS.SELECTED_COMBINATION_WRONF:
       return {
         ...state,
         selectedCards: []
@@ -62,6 +64,12 @@ const game = (state = defaultState, action) => {
       return {
         ...state,
         status: payload.status
+      };
+
+    case ACTIONS.SHOW_SPLASHER:
+      return {
+        ...state,
+        splasherType: payload.type
       };
 
     default:
@@ -83,16 +91,16 @@ export const selectCard = id => {
   };
 };
 
-export const selectCombinationSuccess = userCombo => {
+export const selectedCombinationCorrect = userCombo => {
   return {
-    type: ACTIONS.SELECT_COMBINATION_SUCCESS,
+    type: ACTIONS.SELECTED_COMBINATION_CORRECT,
     payload: { userCombo }
   };
 };
 
-export const selectCombinationFailure = () => {
+export const selectedCombinationWrong = () => {
   return {
-    type: ACTIONS.SELECT_COMBINATION_FAILURE
+    type: ACTIONS.SELECTED_COMBINATION_WRONG
   };
 };
 
@@ -105,6 +113,20 @@ export const changeGameStatus = status => {
       }
     };
   }
+};
+
+export const showGameSplasher = type => {
+  return {
+    type: ACTIONS.SHOW_SPLASHER,
+    payload: { type }
+  };
+};
+
+export const closeGameSplasher = () => {
+  return {
+    type: ACTIONS.SHOW_SPLASHER,
+    payload: { type: null }
+  };
 };
 
 export default game;
