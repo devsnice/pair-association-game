@@ -23,16 +23,16 @@ class GameField extends Component {
   createCards = ({ amountImages, cardWidth, cardHeight }) => {
     const { selectedCards, images } = this.props;
 
-    const cards = images.map((image, id) => {
-      const isSelected = selectedCards.includes(id);
+    const cards = images.map(card => {
+      const isSelected = selectedCards.includes(card.id);
 
       return (
         <GameCard
           width={cardWidth}
           height={cardHeight}
-          id={id}
-          key={id}
-          image={image}
+          id={card.id}
+          key={card.id}
+          image={card.image}
           handleClick={this.selectCard}
           isSelected={isSelected}
         />

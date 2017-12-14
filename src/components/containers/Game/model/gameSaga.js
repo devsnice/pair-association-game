@@ -46,10 +46,7 @@ function* gameSaga() {
             if (isCorrectCombo && isNewCombo) {
               yield put(
                 showGameSplasher('combinationCorrect', {
-                  images: {
-                    first: state.game.images[state.game.selectedCards[0]],
-                    second: state.game.images[state.game.selectedCards[1]]
-                  },
+                  combo: state.game.selectedCards,
                   msg: getMessageOfCombination(userCombo)
                 })
               );
@@ -58,10 +55,6 @@ function* gameSaga() {
             } else {
               yield put(
                 showGameSplasher('combinationWrong', {
-                  images: {
-                    first: state.game.images[state.game.selectedCards[0]],
-                    second: state.game.images[state.game.selectedCards[1]]
-                  },
                   combo: state.game.selectedCards
                 })
               );

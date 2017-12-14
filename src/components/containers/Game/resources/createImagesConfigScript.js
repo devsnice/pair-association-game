@@ -10,16 +10,25 @@ const createFile = data => {
 
 const createFileData = images => {
   let importStatements = '';
-  let exportImagesStatements = 'export default [\n';
+  let exportImagesStatements = 'export const Images = [\n';
+  let exportImagesTableStatements = 'export const ImagesTable = {';
+  const exportDefaultStatement = 'export default Images\n';
 
   images.forEach((image, index) => {
     importStatements += `import image${index} from './images/${image}';\n`;
-    exportImagesStatements += `image${index}, `;
+    exportImagesStatements += `{ image: image${index}, id: ${index}}, `;
+    exportImagesTableStatements += `${index}: image${index}, `;
   });
 
   exportImagesStatements += '];\n';
+  exportImagesTableStatements += '}\n';
 
-  return importStatements + exportImagesStatements;
+  return (
+    importStatements +
+    exportImagesStatements +
+    exportImagesTableStatements +
+    exportDefaultStatement
+  );
 };
 
 const createImagesConfigScript = () => {
