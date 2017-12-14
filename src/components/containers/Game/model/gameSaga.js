@@ -55,7 +55,11 @@ function* gameSaga() {
 
               yield put(selectedCombinationCorrect(userCombo));
             } else {
-              yield put(showGameSplasher('combinationWrong'));
+              yield put(
+                showGameSplasher('combinationWrong', {
+                  combo: state.game.selectedCards
+                })
+              );
               yield put(selectedCombinationWrong());
             }
           }

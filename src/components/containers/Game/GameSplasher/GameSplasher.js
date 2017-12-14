@@ -6,6 +6,7 @@ import { Flex } from 'grid-styled';
 
 import IntroductionSplasher from './IntroductionSplasher/IntroductionSplasher';
 import CorrectCombinationSplasher from './CorrectCombinationSplasher/CorrectCombinationSplasher';
+import WrongCombinationSplasher from './WrongCombinationSplasher/WrongCombinationSplasher';
 
 const Wrapper = styled(Flex)`
   width: 100%;
@@ -49,6 +50,13 @@ class GameSplasher extends Component {
       case 'combinationCorrect':
         return (
           <CorrectCombinationSplasher
+            handleContinueGame={handleContinueGame}
+            {...data}
+          />
+        );
+      case 'combinationWrong':
+        return (
+          <WrongCombinationSplasher
             handleContinueGame={handleContinueGame}
             {...data}
           />

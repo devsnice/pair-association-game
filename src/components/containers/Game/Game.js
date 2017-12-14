@@ -49,7 +49,7 @@ class Game extends Component {
     this.props.closeGameSplasher();
   };
 
-  // TODO:: added animation for gameBar
+  // TODO:: add animation for gameBar
   render() {
     const { game, selectCard } = this.props;
 
