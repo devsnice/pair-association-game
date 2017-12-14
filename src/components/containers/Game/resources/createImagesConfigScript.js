@@ -10,16 +10,16 @@ const createFile = data => {
 
 const createFileData = images => {
   let importStatements = '';
-  let exportStatements = 'export default {\n';
+  let exportImagesStatements = 'export default [\n';
 
   images.forEach((image, index) => {
     importStatements += `import image${index} from './images/${image}';\n`;
-    exportStatements += `image${index}, `;
+    exportImagesStatements += `image${index}, `;
   });
 
-  exportStatements += '}';
+  exportImagesStatements += '];\n';
 
-  return importStatements + exportStatements;
+  return importStatements + exportImagesStatements;
 };
 
 const createImagesConfigScript = () => {

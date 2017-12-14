@@ -25,7 +25,8 @@ const defaultState = {
   selectedCards: [],
   userCombos: [],
   splasherType: null,
-  splasherData: null
+  splasherData: null,
+  images: []
 };
 
 const game = (state = defaultState, action) => {
@@ -38,6 +39,7 @@ const game = (state = defaultState, action) => {
         score: 0,
         maxScore: payload.maxScore,
         startGameTime: payload.startGameTime,
+        images: payload.images,
         status: gameStatuses.intro
       };
 

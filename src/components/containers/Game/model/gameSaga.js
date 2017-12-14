@@ -20,10 +20,8 @@ function* gameSaga() {
   yield takeEvery(ACTIONS.START_GAME, function*(action) {
     const state = yield select();
 
-    // open introduction
     yield put(showGameSplasher('introduction'));
 
-    // check that user passed introduction, after it game begins
     const userPassedIntro = yield take(ACTIONS.CHANGE_GAME_STATUS);
 
     if (userPassedIntro.payload.status === 'playing') {
@@ -48,7 +46,10 @@ function* gameSaga() {
             if (isCorrectCombo && isNewCombo) {
               yield put(
                 showGameSplasher('combinationCorrect', {
-                  combo: state.game.selectedCards,
+                  images: {
+                    first: state.game.images[state.game.selectedCards[0]],
+                    second: state.game.images[state.game.selectedCards[1]]
+                  },
                   msg: getMessageOfCombination(userCombo)
                 })
               );
@@ -57,6 +58,10 @@ function* gameSaga() {
             } else {
               yield put(
                 showGameSplasher('combinationWrong', {
+                  images: {
+                    first: state.game.images[state.game.selectedCards[0]],
+                    second: state.game.images[state.game.selectedCards[1]]
+                  },
                   combo: state.game.selectedCards
                 })
               );

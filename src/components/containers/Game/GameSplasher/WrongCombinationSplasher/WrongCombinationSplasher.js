@@ -5,8 +5,6 @@ import styled from 'styled-components';
 import { Box, Flex } from 'grid-styled';
 import { Title, Description, Button } from '../GameSplashersUnits';
 
-import Images from '../../resources/imagesConfig';
-
 const CardWrapper = styled.div`
   width: ${props => `${props.width}px`};
   height: ${props => `${props.height}px`};
@@ -17,7 +15,10 @@ const CardWrapper = styled.div`
 class WrongCombinationSplasher extends Component {
   static propTypes = {
     handleContinueGame: PropTypes.func.isRequired,
-    combo: PropTypes.array.isRequired,
+    images: PropTypes.shape({
+      first: PropTypes.string.isRequired,
+      second: PropTypes.string.isRequired
+    }).isRequired,
     msg: PropTypes.string
   };
 
@@ -27,21 +28,13 @@ class WrongCombinationSplasher extends Component {
 
   // TODO::add animation
   render() {
-    const { combo, msg, handleContinueGame } = this.props;
+    const { images, msg, handleContinueGame } = this.props;
 
     return (
       <Flex align="center" column>
         <Flex justify="space-between" width="950px">
-          <CardWrapper
-            image={Images[`image${combo[0]}`]}
-            width="460"
-            height="240"
-          />
-          <CardWrapper
-            image={Images[`image${combo[1]}`]}
-            width="460"
-            height="240"
-          />
+          <CardWrapper image={images.first} width="460" height="240" />
+          <CardWrapper image={images.second} width="460" height="240" />
         </Flex>
 
         <Box width="520px" mt="30px">

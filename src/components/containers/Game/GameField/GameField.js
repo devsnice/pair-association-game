@@ -4,8 +4,6 @@ import styled from 'styled-components';
 
 import GameCard from './GameCard/GameCard';
 
-import Images from '../resources/imagesConfig';
-
 const Wrapper = styled.div`
   width: 100%;
   height: calc(100% - 100px);
@@ -14,6 +12,7 @@ const Wrapper = styled.div`
 class GameField extends Component {
   static propTypes = {
     handleSelectCard: PropTypes.func.isRequired,
+    images: PropTypes.array.isRequired,
     selectedCards: PropTypes.array
   };
 
@@ -21,29 +20,26 @@ class GameField extends Component {
     selectedCards: []
   };
 
-  // TODO: get image should be a random process
   createCards = ({ amountImages, cardWidth, cardHeight }) => {
-    const { selectedCards } = this.props;
+    const { selectedCards, images } = this.props;
 
-    const images = [];
+    const cards = images.map((image, id) => {
+      const isSelected = selectedCards.includes(id);
 
-    for (let i = 0; i < amountImages; i++) {
-      const isSelected = selectedCards.includes(i);
-
-      images.push(
+      return (
         <GameCard
           width={cardWidth}
           height={cardHeight}
-          id={i}
-          key={i}
-          image={Images[`image${i}`]}
+          id={id}
+          key={id}
+          image={image}
           handleClick={this.selectCard}
           isSelected={isSelected}
         />
       );
-    }
+    });
 
-    return images;
+    return cards;
   };
 
   selectCard = id => {
@@ -52,7 +48,7 @@ class GameField extends Component {
 
   // TODO: create smart field for elements
   createField = () => {
-    const amountImages = Object.keys(Images).length;
+    const amountImages = Object.keys(this.props.images).length;
     const { availHeight, availWidth } = window.screen;
 
     const amountInRow = 9;

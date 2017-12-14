@@ -6,6 +6,7 @@ const CardWrapper = styled.div`
   height: ${props => `${props.height}px`};
   position: relative;
   float: left;
+  cursor: pointer;
 
   &:hover {
     opacity: 0.85;

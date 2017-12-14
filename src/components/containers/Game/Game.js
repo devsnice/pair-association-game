@@ -12,6 +12,7 @@ import {
 } from './model/gameReducer';
 
 import { maxScore } from './config';
+import Images from './resources/imagesConfig';
 
 import GameField from './GameField/GameField';
 import GameBar from './GameBar/GameBar';
@@ -38,10 +39,39 @@ class Game extends Component {
     this.handleStartGame();
   }
 
+  getImagesForGame = () => {
+    let inputImages = [...Images];
+    const outputImages = [];
+
+    const getRandomInt = (min, max) => {
+      return Math.floor(Math.random() * (max - min)) + min;
+    };
+
+    while (inputImages.length > 0) {
+      const randomNumber = getRandomInt(0, inputImages.length);
+
+      for (
+        let i = 0;
+        i <= randomNumber && inputImages.length;
+        i += randomNumber
+      ) {
+        outputImages.push(inputImages[i]);
+
+        inputImages = [
+          ...inputImages.slice(0, i),
+          ...inputImages.slice(i + 1, inputImages.length)
+        ];
+      }
+    }
+
+    return outputImages;
+  };
+
   handleStartGame = () => {
     this.props.startGame({
       maxScore,
-      startGameTime: new Date()
+      startGameTime: new Date(),
+      images: this.getImagesForGame()
     });
   };
 
@@ -61,6 +91,7 @@ class Game extends Component {
       <Wrapper>
         <GameField
           handleSelectCard={selectCard}
+          images={game.images}
           selectedCards={game.selectedCards}
         />
 
