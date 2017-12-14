@@ -70,7 +70,7 @@ function* gameSaga() {
 
           if (state.game.score === state.game.maxScore) {
             yield put(changeGameStatus('end'));
-            yield put(showGameSplasher('results'));
+            yield put(showGameSplasher('gameEnd'));
           }
         }
       }

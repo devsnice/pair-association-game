@@ -7,6 +7,7 @@ import { Flex } from 'grid-styled';
 import IntroductionSplasher from './IntroductionSplasher/IntroductionSplasher';
 import CorrectCombinationSplasher from './CorrectCombinationSplasher/CorrectCombinationSplasher';
 import WrongCombinationSplasher from './WrongCombinationSplasher/WrongCombinationSplasher';
+import GameEndSplasher from './GameEndSplasher/GameEndSplasher';
 
 const Wrapper = styled(Flex)`
   width: 100%;
@@ -22,6 +23,7 @@ class GameSplasher extends Component {
   static propTypes = {
     handleUserPassedIntro: PropTypes.func.isRequired,
     handleContinueGame: PropTypes.func.isRequired,
+    handleStartGame: PropTypes.func.isRequired,
     type: PropTypes.string,
     data: PropTypes.object
   };
@@ -36,6 +38,7 @@ class GameSplasher extends Component {
       type,
       data,
       handleUserPassedIntro,
+      handleStartGame,
       handleContinueGame
     } = this.props;
 
@@ -61,6 +64,8 @@ class GameSplasher extends Component {
             {...data}
           />
         );
+      case 'gameEnd':
+        return <GameEndSplasher handleStartGame={handleStartGame} />;
       default:
         return null;
     }

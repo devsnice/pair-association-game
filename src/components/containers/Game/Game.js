@@ -35,11 +35,15 @@ class Game extends Component {
   };
 
   componentDidMount() {
+    this.handleStartGame();
+  }
+
+  handleStartGame = () => {
     this.props.startGame({
       maxScore,
       startGameTime: new Date()
     });
-  }
+  };
 
   handleUserPassedIntro = () => {
     this.props.changeGameStatus(gameStatuses.playing);
@@ -68,6 +72,7 @@ class Game extends Component {
           type={game.splasherType}
           data={game.splasherData}
           handleUserPassedIntro={this.handleUserPassedIntro}
+          handleStartGame={this.handleStartGame}
           handleContinueGame={this.handleContinueGame}
         />
       </Wrapper>
