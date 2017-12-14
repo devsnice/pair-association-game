@@ -1,4 +1,4 @@
-import { put, fork, take, select, takeEvery } from 'redux-saga/effects';
+import { put, take, select, takeEvery } from 'redux-saga/effects';
 import {
   ACTIONS,
   selectedCombinationCorrect,

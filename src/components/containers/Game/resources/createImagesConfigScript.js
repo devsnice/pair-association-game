@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const imagesDir = path.join(__dirname, './images');
-const imageRegexp = /(.png)|(.jpg)$/i;
+const imageRegexp = /(.png)|(.jpg)|(.jpeg)$/i;
 
 const createFile = data => {
   fs.writeFileSync(path.join(__dirname, './imagesConfig.js'), data);

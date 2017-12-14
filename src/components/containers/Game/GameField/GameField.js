@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import GameCard from './GameCard/GameCard';
+
 import Images from '../resources/imagesConfig';
 
 const Wrapper = styled.div`
@@ -9,51 +11,34 @@ const Wrapper = styled.div`
   height: calc(100% - 100px);
 `;
 
-const CardWrapper = styled.div`
-  width: ${props => `${props.width}px`};
-  height: ${props => `${props.height}px`};
-  background: ${props => `url("${props.image}")`};
-  float: left;
-  text-align: center;
-  cursor: pointer;
-  background-size: cover;
-
-  &:hover {
-    background: #eee;
-  }
-`;
-
-const Card = params => {
-  return (
-    <CardWrapper
-      onClick={() => {
-        params.handleClick(params.id);
-      }}
-      image={params.image}
-      width={params.width}
-      height={params.height}
-    />
-  );
-};
-
 class GameField extends Component {
   static propTypes = {
-    handleSelectCard: PropTypes.func.isRequired
+    handleSelectCard: PropTypes.func.isRequired,
+    selectedCards: PropTypes.array
+  };
+
+  static defaultProps = {
+    selectedCards: []
   };
 
   // TODO: get image should be a random process
   createCards = ({ amountImages, cardWidth, cardHeight }) => {
+    const { selectedCards } = this.props;
+
     const images = [];
 
     for (let i = 0; i < amountImages; i++) {
+      const isSelected = selectedCards.includes(i);
+
       images.push(
-        <Card
+        <GameCard
           width={cardWidth}
           height={cardHeight}
           id={i}
           key={i}
           image={Images[`image${i}`]}
           handleClick={this.selectCard}
+          isSelected={isSelected}
         />
       );
     }

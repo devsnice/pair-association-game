@@ -55,7 +55,10 @@ class Game extends Component {
 
     return (
       <Wrapper>
-        <GameField handleSelectCard={selectCard} />
+        <GameField
+          handleSelectCard={selectCard}
+          selectedCards={game.selectedCards}
+        />
 
         {game.status !== 'intro' && (
           <GameBar score={game.score} maxScore={game.maxScore} />
