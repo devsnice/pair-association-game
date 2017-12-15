@@ -52,7 +52,7 @@ class Game extends Component {
 
       for (
         let i = 0;
-        i <= randomNumber && inputImages.length;
+        i <= randomNumber && i < inputImages.length;
         i += randomNumber
       ) {
         outputImages.push(inputImages[i]);
