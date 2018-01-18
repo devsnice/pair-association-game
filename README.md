@@ -1,1 +1,1 @@
-# pair-association-game
+# find pairs game

@@ -39,39 +39,70 @@ class Game extends Component {
     this.handleStartGame();
   }
 
-  getImagesForGame = () => {
-    let inputImages = [...Images];
+  getPairsImagesForGame = images => {
+    const gameCombos = [];
+
+    const preparedImages = [...images, ...images].map((image, index) => {
+      gameCombos[image.id] = !gameCombos[image.id]
+        ? `${index}`
+        : `${gameCombos[image.id]}, ${index}`;
+
+      return {
+        ...image,
+        id: index,
+        pairId: image.id
+      };
+    });
+
+    return {
+      gameCombos,
+      images: preparedImages
+    };
+  };
+
+  shuffleImages = images => {
     const outputImages = [];
 
     const getRandomInt = (min, max) => {
       return Math.floor(Math.random() * (max - min)) + min;
     };
 
-    while (inputImages.length > 0) {
-      const randomNumber = getRandomInt(0, inputImages.length);
+    while (images.length > 0) {
+      const randomNumber = getRandomInt(0, images.length);
 
       for (
         let i = 0;
-        i <= randomNumber && i < inputImages.length;
+        i <= randomNumber && i < images.length;
         i += randomNumber
       ) {
-        outputImages.push(inputImages[i]);
+        outputImages.push(images[i]);
 
-        inputImages = [
-          ...inputImages.slice(0, i),
-          ...inputImages.slice(i + 1, inputImages.length)
-        ];
+        images = [...images.slice(0, i), ...images.slice(i + 1, images.length)];
       }
     }
 
     return outputImages;
   };
 
+  getImageCombinationForGame = () => {
+    let { images, gameCombos } = this.getPairsImagesForGame(Images);
+
+    const shuffleImages = this.shuffleImages(images);
+
+    return {
+      images: shuffleImages,
+      gameCombos
+    };
+  };
+
   handleStartGame = () => {
+    const { gameCombos, images } = this.getImageCombinationForGame(Images);
+
     this.props.startGame({
       maxScore,
-      startGameTime: new Date(),
-      images: this.getImagesForGame()
+      images,
+      gameCombos,
+      startGameTime: new Date()
     });
   };
 
