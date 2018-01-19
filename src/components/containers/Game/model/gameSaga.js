@@ -1,5 +1,7 @@
 import { put, take, select, takeEvery } from 'redux-saga/effects';
 
+import Images from '../resources/imagesConfig';
+
 import {
   ACTIONS,
   selectedPairCorrect,
@@ -9,8 +11,6 @@ import {
   showGameSplasher,
   closeGameSplasher
 } from './gameReducer';
-
-import Images from '../resources/imagesConfig';
 
 import { getShuffledImagePairsForGame } from '../utils/gameUtils';
 import gameStatuses from '../utils/gameStatuses';

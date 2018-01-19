@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+const cardsInRow = 5;
+const cardsInHeight = 4;
+const cardsWidthSize = `${100 / cardsInRow}%`;
+const cardsHeightSize = `${100 / cardsInHeight}%`;
+
 const CardWrapper = styled.div`
-  width: ${props => `${props.width}px`};
-  height: ${props => `${props.height}px`};
-  position: relative;
-  float: left;
+  width: ${cardsWidthSize};
+  height: ${cardsHeightSize};
   cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
 `;
 
 const Card = styled.div`
@@ -36,13 +41,11 @@ const CardSelected = styled.div`
 const GameCard = params => {
   return (
     <CardWrapper
-      width={params.width}
-      height={params.height}
       onClick={() => {
         params.handleClick({ id: params.id, pairId: params.pairId });
       }}
     >
-      <Card width={params.width} height={params.height} image={params.image} />
+      <Card image={params.image} />
       <CardSelected isSelected={params.isSelected} />
     </CardWrapper>
   );

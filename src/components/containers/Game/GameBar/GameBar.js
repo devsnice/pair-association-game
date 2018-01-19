@@ -3,17 +3,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  background: linear-gradient(to bottom, #088ff5, #854dc2);
-  color: #fff;
-  height: 100px;
+  background: #fff;
+  padding: 24px 16px;
+  height: 100%;
   font-weight: 400;
   font-size: 48px;
-  line-height: 100px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
   text-align: center;
-  width: 100%;
+  width: 240px;
 `;
 
 class GameBar extends Component {

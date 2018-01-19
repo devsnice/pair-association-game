@@ -6,7 +6,12 @@ import GameCard from './GameCard/GameCard';
 
 const Wrapper = styled.div`
   width: 100%;
-  height: calc(100% - 100px);
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  padding: 24px;
+  box-sizing: border-box;
 `;
 
 class GameField extends Component {
@@ -21,7 +26,7 @@ class GameField extends Component {
     selectedCards: []
   };
 
-  createCards = ({ amountImages, cardWidth, cardHeight }) => {
+  createCards = () => {
     const { userPairsIds, selectedCards, images } = this.props;
 
     const cards = images.map(card => {
@@ -36,8 +41,6 @@ class GameField extends Component {
 
       return (
         <GameCard
-          width={cardWidth}
-          height={cardHeight}
           id={card.id}
           pairId={card.pairId}
           key={card.id}
@@ -53,22 +56,9 @@ class GameField extends Component {
 
   // TODO: create smart field for elements
   createField = () => {
-    const amountImages = this.props.images.length;
-    const { availHeight, availWidth } = window.screen;
+    const cards = this.createCards();
 
-    const amountInRow = 4;
-    const amountInHeight = amountImages / amountInRow;
-
-    const cardWidth = availWidth / amountInRow;
-    const cardHeight = (availHeight - 100) / amountInHeight;
-
-    const images = this.createCards({
-      amountImages,
-      cardWidth,
-      cardHeight
-    });
-
-    return images;
+    return cards;
   };
 
   selectCard = ({ id, pairId }) => {

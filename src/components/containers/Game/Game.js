@@ -19,7 +19,7 @@ import GameSplasher from './GameSplasher/GameSplasher';
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  position: relative;
+  display: flex;
 `;
 
 class Game extends Component {
@@ -62,16 +62,14 @@ class Game extends Component {
 
     return (
       <Wrapper>
+        <GameBar score={game.score} maxScore={game.maxScore} />
+
         <GameField
           handleSelectCard={selectCard}
           userPairsIds={game.userPairsIds}
           images={game.images}
           selectedCards={game.selectedCards}
         />
-
-        {game.status !== 'intro' && (
-          <GameBar score={game.score} maxScore={game.maxScore} />
-        )}
 
         <GameSplasher
           type={game.splasherType}
