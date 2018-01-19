@@ -13,6 +13,7 @@ class GameField extends Component {
   static propTypes = {
     handleSelectCard: PropTypes.func.isRequired,
     images: PropTypes.array.isRequired,
+    userPairsIds: PropTypes.array.isRequired,
     selectedCards: PropTypes.array
   };
 
@@ -21,16 +22,24 @@ class GameField extends Component {
   };
 
   createCards = ({ amountImages, cardWidth, cardHeight }) => {
-    const { selectedCards, images } = this.props;
+    const { userPairsIds, selectedCards, images } = this.props;
 
     const cards = images.map(card => {
-      const isSelected = selectedCards.includes(card.id);
+      const isSelected =
+        userPairsIds.includes(card.pairId) ||
+        selectedCards.find(selectedCard => {
+          return (
+            selectedCard.cardId === card.id &&
+            selectedCard.pairId === card.pairId
+          );
+        });
 
       return (
         <GameCard
           width={cardWidth}
           height={cardHeight}
           id={card.id}
+          pairId={card.pairId}
           key={card.id}
           image={card.image}
           handleClick={this.selectCard}
@@ -42,16 +51,12 @@ class GameField extends Component {
     return cards;
   };
 
-  selectCard = id => {
-    this.props.handleSelectCard(id);
-  };
-
   // TODO: create smart field for elements
   createField = () => {
-    const amountImages = Object.keys(this.props.images).length;
+    const amountImages = this.props.images.length;
     const { availHeight, availWidth } = window.screen;
 
-    const amountInRow = 9;
+    const amountInRow = 4;
     const amountInHeight = amountImages / amountInRow;
 
     const cardWidth = availWidth / amountInRow;
@@ -64,6 +69,10 @@ class GameField extends Component {
     });
 
     return images;
+  };
+
+  selectCard = ({ id, pairId }) => {
+    this.props.handleSelectCard({ id, pairId });
   };
 
   render() {

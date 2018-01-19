@@ -4,15 +4,13 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import {
-  startGame,
+  startGameRequest,
   selectCard,
   changeGameStatus,
-  closeGameSplasher,
-  gameStatuses
+  closeGameSplasher
 } from './model/gameReducer';
 
-import { maxScore } from './config';
-import Images from './resources/imagesConfig';
+import gameStatuses from './utils/gameStatuses';
 
 import GameField from './GameField/GameField';
 import GameBar from './GameBar/GameBar';
@@ -31,78 +29,21 @@ class Game extends Component {
       score: PropTypes.number.isRequired,
       maxScore: PropTypes.number.isRequired,
       selectedCards: PropTypes.array.isRequired,
-      userCombos: PropTypes.array.isRequired
-    })
+      userPairsIds: PropTypes.array.isRequired
+    }),
+    startGameRequest: PropTypes.func.isRequired,
+    changeGameStatus: PropTypes.func.isRequired,
+    closeGameSplasher: PropTypes.func.isRequired,
+    selectCard: PropTypes.func.isRequired
   };
 
   componentDidMount() {
     this.handleStartGame();
   }
 
-  getPairsImagesForGame = images => {
-    const gameCombos = [];
-
-    const preparedImages = [...images, ...images].map((image, index) => {
-      gameCombos[image.id] = !gameCombos[image.id]
-        ? `${index}`
-        : `${gameCombos[image.id]}, ${index}`;
-
-      return {
-        ...image,
-        id: index,
-        pairId: image.id
-      };
-    });
-
-    return {
-      gameCombos,
-      images: preparedImages
-    };
-  };
-
-  shuffleImages = images => {
-    const outputImages = [];
-
-    const getRandomInt = (min, max) => {
-      return Math.floor(Math.random() * (max - min)) + min;
-    };
-
-    while (images.length > 0) {
-      const randomNumber = getRandomInt(0, images.length);
-
-      for (
-        let i = 0;
-        i <= randomNumber && i < images.length;
-        i += randomNumber
-      ) {
-        outputImages.push(images[i]);
-
-        images = [...images.slice(0, i), ...images.slice(i + 1, images.length)];
-      }
-    }
-
-    return outputImages;
-  };
-
-  getImageCombinationForGame = () => {
-    let { images, gameCombos } = this.getPairsImagesForGame(Images);
-
-    const shuffleImages = this.shuffleImages(images);
-
-    return {
-      images: shuffleImages,
-      gameCombos
-    };
-  };
-
   handleStartGame = () => {
-    const { gameCombos, images } = this.getImageCombinationForGame(Images);
-
-    this.props.startGame({
-      maxScore,
-      images,
-      gameCombos,
-      startGameTime: new Date()
+    this.props.startGameRequest({
+      mode: 'default'
     });
   };
 
@@ -123,6 +64,7 @@ class Game extends Component {
       <Wrapper>
         <GameField
           handleSelectCard={selectCard}
+          userPairsIds={game.userPairsIds}
           images={game.images}
           selectedCards={game.selectedCards}
         />
@@ -144,7 +86,7 @@ class Game extends Component {
 }
 
 export default connect(state => ({ game: state.game }), {
-  startGame,
+  startGameRequest,
   selectCard,
   changeGameStatus,
   closeGameSplasher

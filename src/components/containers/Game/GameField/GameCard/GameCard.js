@@ -7,10 +7,6 @@ const CardWrapper = styled.div`
   position: relative;
   float: left;
   cursor: pointer;
-
-  &:hover {
-    opacity: 0.85;
-  }
 `;
 
 const Card = styled.div`
@@ -24,14 +20,17 @@ const Card = styled.div`
 `;
 
 const CardSelected = styled.div`
-  background: ${props => props.isSelected && 'rgba(0, 0, 0, 0.65)'};
-  border: ${props => props.isSelected && '2px solid rgba(255, 255, 255, 0.65)'};
+  background: ${props => (props.isSelected ? 'rgba(0, 0, 0, 0)' : '#088ff5')};
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${props => (props.isSelected ? '#088ff5' : '#854dc2')};
   width: 100%;
   height: 100%;
   position: absolute;
   box-sizing: border-box;
   top: 0;
   left: 0;
+  transition: 0.2s all ease;
 `;
 
 const GameCard = params => {
@@ -40,7 +39,7 @@ const GameCard = params => {
       width={params.width}
       height={params.height}
       onClick={() => {
-        params.handleClick(params.id);
+        params.handleClick({ id: params.id, pairId: params.pairId });
       }}
     >
       <Card width={params.width} height={params.height} image={params.image} />

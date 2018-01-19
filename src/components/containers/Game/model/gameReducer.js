@@ -1,29 +1,23 @@
+import gameStatuses from '../utils/gameStatuses';
+
 export const ACTIONS = {
+  START_GAME_REQUEST: 'START_GAME_REQUEST',
   START_GAME: 'START_GAME',
   SELECT_CARD: 'SELECT_CARD',
-  SELECT_COMBINATION: 'SELECT_COMBINATION',
-  SELECTED_COMBINATION_CORRECT: 'SELECTED_COMBINATION_CORRECT',
-  SELECTED_COMBINATION_WRONG: 'SELECTED_COMBINATION_WRONG',
+  SELECT_PAIR: 'SELECT_PAIR',
+  SELECTED_PAIR_CORRECT: 'SELECTED_PAIR_CORRECT',
+  SELECTED_PAIR_WRONG: 'SELECTED_PAIR_WRONG',
   CHANGE_GAME_STATUS: 'CHANGE_GAME_STATUS',
   SHOW_SPLASHER: 'SHOW_SPLASHER'
 };
 
-// init -> intro -> playing -> end
-
-export const gameStatuses = {
-  init: 'init',
-  intro: 'intro',
-  playing: 'playing',
-  end: 'end'
-};
-
 const defaultState = {
-  status: gameStatuses.init,
+  status: null,
   score: 0,
   maxScore: 0,
   startGameTime: null,
   selectedCards: [],
-  userCombos: [],
+  userPairsIds: [],
   splasherType: null,
   splasherData: null,
   images: []
@@ -33,31 +27,44 @@ const game = (state = defaultState, action) => {
   const { payload } = action;
 
   switch (action.type) {
+    case ACTIONS.START_GAME_REQUEST:
+      return {
+        ...state,
+        status: gameStatuses.init
+      };
+
     case ACTIONS.START_GAME:
       return {
         ...state,
         score: 0,
+        selectedCards: [],
+        status: gameStatuses.intro,
         maxScore: payload.maxScore,
         startGameTime: payload.startGameTime,
-        images: payload.images,
-        status: gameStatuses.intro
+        images: payload.images
       };
 
     case ACTIONS.SELECT_CARD:
       return {
         ...state,
-        selectedCards: [...state.selectedCards, payload.selectedCardId]
+        selectedCards: [
+          ...state.selectedCards,
+          {
+            cardId: payload.cardId,
+            pairId: payload.cardPairId
+          }
+        ]
       };
 
-    case ACTIONS.SELECTED_COMBINATION_CORRECT:
+    case ACTIONS.SELECTED_PAIR_CORRECT:
       return {
         ...state,
         score: state.score + 1,
         selectedCards: [],
-        userCombos: [...state.userCombos, payload.userCombo]
+        userPairsIds: [...state.userPairsIds, payload.userGuessedPairId]
       };
 
-    case ACTIONS.SELECTED_COMBINATION_WRONG:
+    case ACTIONS.SELECTED_PAIR_WRONG:
       return {
         ...state,
         selectedCards: []
@@ -81,6 +88,12 @@ const game = (state = defaultState, action) => {
   }
 };
 
+export const startGameRequest = () => {
+  return {
+    type: ACTIONS.START_GAME_REQUEST
+  };
+};
+
 export const startGame = gameConfig => {
   return {
     type: ACTIONS.START_GAME,
@@ -88,23 +101,26 @@ export const startGame = gameConfig => {
   };
 };
 
-export const selectCard = id => {
+export const selectCard = ({ id, pairId }) => {
   return {
     type: ACTIONS.SELECT_CARD,
-    payload: { selectedCardId: id }
+    payload: {
+      cardId: id,
+      cardPairId: pairId
+    }
   };
 };
 
-export const selectedCombinationCorrect = userCombo => {
+export const selectedPairCorrect = userGuessedPairId => {
   return {
-    type: ACTIONS.SELECTED_COMBINATION_CORRECT,
-    payload: { userCombo }
+    type: ACTIONS.SELECTED_PAIR_CORRECT,
+    payload: { userGuessedPairId }
   };
 };
 
-export const selectedCombinationWrong = () => {
+export const selectedPairWrong = () => {
   return {
-    type: ACTIONS.SELECTED_COMBINATION_WRONG
+    type: ACTIONS.SELECTED_PAIR_WRONG
   };
 };
 
