@@ -8,7 +8,8 @@ export const ACTIONS = {
   SELECTED_PAIR_CORRECT: 'SELECTED_PAIR_CORRECT',
   SELECTED_PAIR_WRONG: 'SELECTED_PAIR_WRONG',
   SHOW_SPLASHER: 'SHOW_SPLASHER',
-  GAME_FINISHED: 'GAME_FINISHED'
+  GAME_FINISHED: 'GAME_FINISHED',
+  GAME_CHANGE_STATUS: 'GAME_CHANGE_STATUS'
 };
 
 const defaultState = {
@@ -36,6 +37,12 @@ const game = (state = defaultState, action) => {
         maxScore: payload.maxScore,
         startGameTime: payload.startGameTime,
         images: payload.images
+      };
+
+    case ACTIONS.GAME_CHANGE_STATUS:
+      return {
+        ...state,
+        status: payload.status
       };
 
     case ACTIONS.SELECT_CARD:
@@ -141,6 +148,15 @@ export const closeGameSplasher = () => {
   return {
     type: ACTIONS.SHOW_SPLASHER,
     payload: { type: null }
+  };
+};
+
+export const changeGameStatus = status => {
+  return {
+    type: ACTIONS.GAME_CHANGE_STATUS,
+    payload: {
+      status: gameStatuses[status]
+    }
   };
 };
 
