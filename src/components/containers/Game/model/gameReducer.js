@@ -7,12 +7,12 @@ export const ACTIONS = {
   SELECT_PAIR: 'SELECT_PAIR',
   SELECTED_PAIR_CORRECT: 'SELECTED_PAIR_CORRECT',
   SELECTED_PAIR_WRONG: 'SELECTED_PAIR_WRONG',
-  CHANGE_GAME_STATUS: 'CHANGE_GAME_STATUS',
-  SHOW_SPLASHER: 'SHOW_SPLASHER'
+  SHOW_SPLASHER: 'SHOW_SPLASHER',
+  GAME_FINISHED: 'GAME_FINISHED'
 };
 
 const defaultState = {
-  status: null,
+  status: gameStatuses.init,
   score: 0,
   maxScore: 0,
   startGameTime: null,
@@ -27,12 +27,6 @@ const game = (state = defaultState, action) => {
   const { payload } = action;
 
   switch (action.type) {
-    case ACTIONS.START_GAME_REQUEST:
-      return {
-        ...state,
-        status: gameStatuses.init
-      };
-
     case ACTIONS.START_GAME:
       return {
         ...state,
@@ -83,6 +77,12 @@ const game = (state = defaultState, action) => {
         splasherData: payload.data
       };
 
+    case ACTIONS.GAME_FINISHED:
+      return {
+        ...state,
+        status: gameStatuses.end
+      };
+
     default:
       return state;
   }
@@ -124,15 +124,10 @@ export const selectedPairWrong = () => {
   };
 };
 
-export const changeGameStatus = status => {
-  if (gameStatuses[status]) {
-    return {
-      type: ACTIONS.CHANGE_GAME_STATUS,
-      payload: {
-        status: gameStatuses[status]
-      }
-    };
-  }
+export const gameFinished = () => {
+  return {
+    type: ACTIONS.GAME_FINISHED
+  };
 };
 
 export const showGameSplasher = (type, data = {}) => {

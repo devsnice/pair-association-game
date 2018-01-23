@@ -42,7 +42,8 @@ const GameCard = params => {
   return (
     <CardWrapper
       onClick={() => {
-        params.handleClick({ id: params.id, pairId: params.pairId });
+        !params.isSelected &&
+          params.handleClick({ id: params.id, pairId: params.pairId });
       }}
     >
       <Card image={params.image} />
